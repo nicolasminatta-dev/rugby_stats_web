@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rugby Stats Coach</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>Rugby Stats Coach</h1>
+
+    <section class="card">
+      <h2>Partido</h2>
+      <input id="teamLocal" placeholder="Equipo propio" value="Liceo" />
+      <input id="teamRival" placeholder="Rival" value="Rival" />
+    </section>
+
+    <section class="card">
+      <h2>Marcador</h2>
+      <div class="score">
+        <button onclick="add('pointsLocal', 5)">+ Try local</button>
+        <button onclick="add('pointsRival', 5)">+ Try rival</button>
+      </div>
+      <p><span id="pointsLocal">0</span> - <span id="pointsRival">0</span></p>
+    </section>
+
+    <section class="card">
+      <h2>Eventos</h2>
+      <div class="grid">
+        <button onclick="add('scrumLocal', 1)">Scrum local</button>
+        <button onclick="add('scrumRival', 1)">Scrum rival</button>
+        <button onclick="add('lineLocal', 1)">Line local</button>
+        <button onclick="add('lineRival', 1)">Line rival</button>
+        <button onclick="add('ruckFavor', 1)">Ruck a favor</button>
+        <button onclick="add('ruckContra', 1)">Ruck en contra</button>
+        <button onclick="add('penalesFavor', 1)">Penal a favor</button>
+        <button onclick="add('penalesContra', 1)">Penal en contra</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Jugadores</h2>
+      <div id="players"></div>
+    </section>
+
+    <section class="card">
+      <h2>Estadísticas</h2>
+      <pre id="stats"></pre>
+    </section>
+
+    <section class="card actions">
+      <button onclick="exportCSV()">Exportar CSV</button>
+      <button onclick="resetMatch()" class="danger">Reiniciar</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

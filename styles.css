@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #101820;
+  color: #ffffff;
+}
+
+.app {
+  max-width: 900px;
+  margin: auto;
+  padding: 16px;
+}
+
+h1 {
+  text-align: center;
+  color: #f2c94c;
+}
+
+.card {
+  background: #1d2a35;
+  padding: 16px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2d9cdb;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.score {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.score + p {
+  text-align: center;
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.player {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.player input {
+  margin: 0;
+}
+
+.danger {
+  background: #eb5757;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+pre {
+  white-space: pre-wrap;
+  font-size: 15px;
+}

@@ -23,7 +23,15 @@ h1 {
   border-radius: 12px;
 }
 
-input {
+label {
+  display: block;
+  margin: 8px 0 6px;
+  font-weight: bold;
+  color: #f2c94c;
+}
+
+input,
+select {
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 8px;
@@ -42,38 +50,103 @@ button {
   cursor: pointer;
 }
 
+button span {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.2);
+}
+
 button:active {
   transform: scale(0.98);
 }
 
-.grid {
+.minus {
+  background: #6c7a89;
+}
+
+.score-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-.score {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.score + p {
+.score-actions + p {
   text-align: center;
   font-size: 34px;
   font-weight: bold;
 }
 
+.event-list {
+  display: grid;
+  gap: 8px;
+}
+
+.event-row {
+  display: grid;
+  grid-template-columns: 1fr 44px 54px 44px;
+  gap: 8px;
+  align-items: center;
+  background: #101820;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.event-row span {
+  font-weight: bold;
+}
+
+.event-row strong {
+  text-align: center;
+  font-size: 18px;
+  color: #f2c94c;
+}
+
+.small {
+  padding: 8px;
+  font-size: 18px;
+}
+
+.event-percent {
+  background: #101820;
+  border-radius: 8px;
+  padding: 10px;
+  color: #f2c94c;
+  font-weight: bold;
+  text-align: center;
+}
+
+.players-header,
 .player {
   display: grid;
-  grid-template-columns: 1fr 80px 80px;
+  grid-template-columns: 1fr 120px 120px 70px;
   gap: 8px;
   margin-bottom: 8px;
   align-items: center;
 }
 
+.players-header {
+  color: #f2c94c;
+  font-weight: bold;
+  text-align: center;
+}
+
+.players-header span:first-child {
+  text-align: left;
+}
+
 .player input {
   margin: 0;
+}
+
+.player .eff {
+  background: #101820;
+  border-radius: 8px;
+  padding: 12px 6px;
+  text-align: center;
+  font-weight: bold;
+  color: #f2c94c;
 }
 
 .danger {
@@ -89,4 +162,40 @@ button:active {
 pre {
   white-space: pre-wrap;
   font-size: 15px;
+}
+
+@media (max-width: 520px) {
+  .players-header,
+  .player {
+    grid-template-columns: 1fr 92px 92px 58px;
+    gap: 6px;
+  }
+
+  .event-row {
+    grid-template-columns: 1fr 40px 46px 40px;
+  }
+
+  button {
+    padding: 11px 8px;
+    font-size: 13px;
+  }
+}
+
+
+.counter-control {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  gap: 4px;
+  align-items: center;
+}
+
+.counter-control strong {
+  text-align: center;
+  color: #f2c94c;
+  font-size: 16px;
+}
+
+.counter-control button {
+  padding: 8px 4px;
+  font-size: 16px;
 }

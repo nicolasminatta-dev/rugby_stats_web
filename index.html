@@ -14,33 +14,117 @@
       <h2>Partido</h2>
       <input id="teamLocal" placeholder="Equipo propio" value="Liceo" />
       <input id="teamRival" placeholder="Rival" value="Rival" />
+
+      <label for="category">Categoría</label>
+      <select id="category">
+        <option>M-6</option>
+        <option>M-7</option>
+        <option>M-8</option>
+        <option>M-9</option>
+        <option>M-10</option>
+        <option>M-11</option>
+        <option>M-12</option>
+        <option>M-13</option>
+        <option>M-14</option>
+        <option>M-15</option>
+        <option>M-16</option>
+        <option>M-17</option>
+        <option>M-18</option>
+        <option>M-19</option>
+        <option>M-20</option>
+        <option selected>Plantel Superior</option>
+      </select>
     </section>
 
     <section class="card">
       <h2>Marcador</h2>
-      <div class="score">
-        <button onclick="add('pointsLocal', 1)">+ Punto local</button>
-        <button onclick="add('pointsRival', 1)">+ Punto rival</button>
+      <div class="score-actions">
+        <button onclick="add('pointsLocal', 1)">+ Local</button>
+        <button class="minus" onclick="subtract('pointsLocal', 1)">- Local</button>
+        <button onclick="add('pointsRival', 1)">+ Rival</button>
+        <button class="minus" onclick="subtract('pointsRival', 1)">- Rival</button>
       </div>
       <p><span id="pointsLocal">0</span> - <span id="pointsRival">0</span></p>
     </section>
 
     <section class="card">
       <h2>Eventos</h2>
-      <div class="grid">
-        <button onclick="add('scrumLocal', 1)">Scrum local</button>
-        <button onclick="add('scrumRival', 1)">Scrum rival</button>
-        <button onclick="add('lineLocal', 1)">Line local</button>
-        <button onclick="add('lineRival', 1)">Line rival</button>
-        <button onclick="add('ruckFavor', 1)">Ruck a favor</button>
-        <button onclick="add('ruckContra', 1)">Ruck en contra</button>
-        <button onclick="add('penalesFavor', 1)">Penal a favor</button>
-        <button onclick="add('penalesContra', 1)">Penal en contra</button>
+
+      <div class="event-list">
+        <div class="event-row">
+          <span>Scrum local</span>
+          <button class="small minus" onclick="subtract('scrumLocal', 1)">−</button>
+          <strong id="scrumLocalCount">0</strong>
+          <button class="small" onclick="add('scrumLocal', 1)">+</button>
+        </div>
+
+        <div class="event-row">
+          <span>Scrum rival</span>
+          <button class="small minus" onclick="subtract('scrumRival', 1)">−</button>
+          <strong id="scrumRivalCount">0</strong>
+          <button class="small" onclick="add('scrumRival', 1)">+</button>
+        </div>
+
+        <div class="event-percent" id="scrumPct">Efectividad scrum: 0.0%</div>
+
+        <div class="event-row">
+          <span>Line local</span>
+          <button class="small minus" onclick="subtract('lineLocal', 1)">−</button>
+          <strong id="lineLocalCount">0</strong>
+          <button class="small" onclick="add('lineLocal', 1)">+</button>
+        </div>
+
+        <div class="event-row">
+          <span>Line rival</span>
+          <button class="small minus" onclick="subtract('lineRival', 1)">−</button>
+          <strong id="lineRivalCount">0</strong>
+          <button class="small" onclick="add('lineRival', 1)">+</button>
+        </div>
+
+        <div class="event-percent" id="linePct">Efectividad line: 0.0%</div>
+
+        <div class="event-row">
+          <span>Ruck a favor</span>
+          <button class="small minus" onclick="subtract('ruckFavor', 1)">−</button>
+          <strong id="ruckFavorCount">0</strong>
+          <button class="small" onclick="add('ruckFavor', 1)">+</button>
+        </div>
+
+        <div class="event-row">
+          <span>Ruck en contra</span>
+          <button class="small minus" onclick="subtract('ruckContra', 1)">−</button>
+          <strong id="ruckContraCount">0</strong>
+          <button class="small" onclick="add('ruckContra', 1)">+</button>
+        </div>
+
+        <div class="event-percent" id="ruckPct">Efectividad ruck: 0.0%</div>
+
+        <div class="event-row">
+          <span>Penal a favor</span>
+          <button class="small minus" onclick="subtract('penalesFavor', 1)">−</button>
+          <strong id="penalesFavorCount">0</strong>
+          <button class="small" onclick="add('penalesFavor', 1)">+</button>
+        </div>
+
+        <div class="event-row">
+          <span>Penal en contra</span>
+          <button class="small minus" onclick="subtract('penalesContra', 1)">−</button>
+          <strong id="penalesContraCount">0</strong>
+          <button class="small" onclick="add('penalesContra', 1)">+</button>
+        </div>
+
+        <div class="event-percent" id="penalesPct">Relación penales: 0.0%</div>
       </div>
     </section>
 
     <section class="card">
       <h2>Jugadores</h2>
+      <div class="players-header">
+        <span>Jugador</span>
+        <span>T</span>
+        <span>E</span>
+        <span>%</span>
+      </div>
       <div id="players"></div>
     </section>
 

@@ -103,26 +103,31 @@ function exportCSV() {
   const local = document.getElementById("teamLocal").value || "Local";
   const rival = document.getElementById("teamRival").value || "Rival";
 
-  let csv = "Categoria,Item,Valor\n";
-  csv += `Partido,Local,${local}\n`;
-  csv += `Partido,Rival,${rival}\n`;
-  csv += `Marcador,Local,${state.pointsLocal}\n`;
-  csv += `Marcador,Rival,${state.pointsRival}\n`;
-  csv += `Scrum,Local,${state.scrumLocal}\n`;
-  csv += `Scrum,Rival,${state.scrumRival}\n`;
-  csv += `Line,Local,${state.lineLocal}\n`;
-  csv += `Line,Rival,${state.lineRival}\n`;
-  csv += `Ruck,A favor,${state.ruckFavor}\n`;
-  csv += `Ruck,En contra,${state.ruckContra}\n`;
-  csv += `Penales,A favor,${state.penalesFavor}\n`;
-  csv += `Penales,En contra,${state.penalesContra}\n`;
+  const totalTackles = state.players.reduce((s, p) => s + p.tackles, 0);
+  const totalMissed = state.players.reduce((s, p) => s + p.missed, 0);
+  const totalActions = totalTackles + totalMissed;
+
+  const sep = ";";
+  let csv = "";
+
+  csv += ["ITEM", local, "PUNTOS / A FAVOR", rival, "PUNTOS / EN CONTRA", "EFECTIVIDAD"].join(sep) + "\n";
+
+  csv += ["MARCADOR", local, state.pointsLocal, rival, state.pointsRival, ""].join(sep) + "\n";
+  csv += ["SCRUM", local, state.scrumLocal, rival, state.scrumRival, pct(state.scrumLocal, state.scrumLocal + state.scrumRival)].join(sep) + "\n";
+  csv += ["LINE", local, state.lineLocal, rival, state.lineRival, pct(state.lineLocal, state.lineLocal + state.lineRival)].join(sep) + "\n";
+  csv += ["RUCK", "A favor", state.ruckFavor, "En contra", state.ruckContra, pct(state.ruckFavor, state.ruckFavor + state.ruckContra)].join(sep) + "\n";
+  csv += ["PENALES", "A favor", state.penalesFavor, "En contra", state.penalesContra, pct(state.penalesFavor, state.penalesFavor + state.penalesContra)].join(sep) + "\n";
+  csv += ["TACKLES", "Efectivos", totalTackles, "Errados", totalMissed, pct(totalTackles, totalActions)].join(sep) + "\n";
+
+  csv += "\n";
+  csv += ["JUGADOR", "TACKLES EFECTIVOS", "TACKLES ERRADOS", "TOTAL ACCIONES", "EFECTIVIDAD"].join(sep) + "\n";
 
   state.players.forEach((p) => {
-    csv += `Jugador,${p.name} tackles efectivos,${p.tackles}\n`;
-    csv += `Jugador,${p.name} tackles errados,${p.missed}\n`;
+    const total = p.tackles + p.missed;
+    csv += [p.name, p.tackles, p.missed, total, pct(p.tackles, total)].join(sep) + "\n";
   });
 
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;

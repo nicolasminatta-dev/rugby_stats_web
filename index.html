@@ -32,7 +32,11 @@
         <option>M-18</option>
         <option>M-19</option>
         <option>M-20</option>
-        <option selected>Plantel Superior</option>
+        <option>Pre-Intermedia C</option>
+        <option>Pre-Intermedia B</option>
+        <option>Pre-Intermedia A</option>
+        <option>Intermedia</option>
+        <option selected>Primera</option>
       </select>
     </section>
 
@@ -59,10 +63,24 @@
         </div>
 
         <div class="event-row">
+          <span>Scrum local perdido</span>
+          <button class="small minus" onclick="subtract('scrumLocalLost', 1)">−</button>
+          <strong id="scrumLocalLostCount">0</strong>
+          <button class="small" onclick="add('scrumLocalLost', 1)">+</button>
+        </div>
+
+        <div class="event-row">
           <span>Scrum rival</span>
           <button class="small minus" onclick="subtract('scrumRival', 1)">−</button>
           <strong id="scrumRivalCount">0</strong>
           <button class="small" onclick="add('scrumRival', 1)">+</button>
+        </div>
+
+        <div class="event-row">
+          <span>Scrum rival perdido</span>
+          <button class="small minus" onclick="subtract('scrumRivalLost', 1)">−</button>
+          <strong id="scrumRivalLostCount">0</strong>
+          <button class="small" onclick="add('scrumRivalLost', 1)">+</button>
         </div>
 
         <div class="event-percent" id="scrumPct">Efectividad scrum: 0.0%</div>
@@ -75,10 +93,24 @@
         </div>
 
         <div class="event-row">
+          <span>Line local perdida</span>
+          <button class="small minus" onclick="subtract('lineLocalLost', 1)">−</button>
+          <strong id="lineLocalLostCount">0</strong>
+          <button class="small" onclick="add('lineLocalLost', 1)">+</button>
+        </div>
+
+        <div class="event-row">
           <span>Line rival</span>
           <button class="small minus" onclick="subtract('lineRival', 1)">−</button>
           <strong id="lineRivalCount">0</strong>
           <button class="small" onclick="add('lineRival', 1)">+</button>
+        </div>
+
+        <div class="event-row">
+          <span>Line rival perdida</span>
+          <button class="small minus" onclick="subtract('lineRivalLost', 1)">−</button>
+          <strong id="lineRivalLostCount">0</strong>
+          <button class="small" onclick="add('lineRivalLost', 1)">+</button>
         </div>
 
         <div class="event-percent" id="linePct">Efectividad line: 0.0%</div>
@@ -91,13 +123,43 @@
         </div>
 
         <div class="event-row">
+          <span>Ruck a favor perdido</span>
+          <button class="small minus" onclick="subtract('ruckFavorLost', 1)">−</button>
+          <strong id="ruckFavorLostCount">0</strong>
+          <button class="small" onclick="add('ruckFavorLost', 1)">+</button>
+        </div>
+
+        <div class="event-row">
           <span>Ruck en contra</span>
           <button class="small minus" onclick="subtract('ruckContra', 1)">−</button>
           <strong id="ruckContraCount">0</strong>
           <button class="small" onclick="add('ruckContra', 1)">+</button>
         </div>
 
+        <div class="event-row">
+          <span>Ruck recuperado</span>
+          <button class="small minus" onclick="subtract('ruckRecovered', 1)">−</button>
+          <strong id="ruckRecoveredCount">0</strong>
+          <button class="small" onclick="add('ruckRecovered', 1)">+</button>
+        </div>
+
         <div class="event-percent" id="ruckPct">Efectividad ruck: 0.0%</div>
+
+        <div class="event-row">
+          <span>Tackles conseguidos</span>
+          <button class="small minus" onclick="subtract('generalTackles', 1)">−</button>
+          <strong id="generalTacklesCount">0</strong>
+          <button class="small" onclick="add('generalTackles', 1)">+</button>
+        </div>
+
+        <div class="event-row">
+          <span>Tackles errados</span>
+          <button class="small minus" onclick="subtract('generalMissed', 1)">−</button>
+          <strong id="generalMissedCount">0</strong>
+          <button class="small" onclick="add('generalMissed', 1)">+</button>
+        </div>
+
+        <div class="event-percent" id="generalTacklesPct">Efectividad tackles general: 0.0%</div>
 
         <div class="event-row">
           <span>Penal a favor</span>
@@ -134,7 +196,8 @@
     </section>
 
     <section class="card actions">
-      <button onclick="exportCSV()">Exportar CSV</button>
+      <button onclick="exportCSV()">Exportar Excel/CSV</button>
+      <button onclick="exportPDF()">Exportar PDF</button>
       <button onclick="resetMatch()" class="danger">Reiniciar</button>
     </section>
   </main>

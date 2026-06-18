@@ -1,4 +1,4 @@
-const CACHE_NAME = "rugby-stats-coach-v1";
+const CACHE_NAME = "rugby-stats-coach-v20260618144516";
 
 const APP_FILES = [
   "./",

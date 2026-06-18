@@ -28,6 +28,73 @@ const state = {
   }))
 };
 
+
+const STORAGE_KEY = "rugbyStatsCoachMatch_v1";
+
+function getMatchInputs() {
+  return {
+    teamLocal: document.getElementById("teamLocal")?.value || "",
+    teamRival: document.getElementById("teamRival")?.value || "",
+    category: document.getElementById("category")?.value || ""
+  };
+}
+
+function saveMatch() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      state: state,
+      inputs: getMatchInputs(),
+      savedAt: new Date().toISOString()
+    }));
+  } catch (error) {
+    console.warn("No se pudo guardar el partido:", error);
+  }
+}
+
+function loadMatch() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+
+    const saved = JSON.parse(raw);
+
+    if (saved.state) {
+      Object.keys(state).forEach((key) => {
+        if (key === "players" && Array.isArray(saved.state.players)) {
+          state.players = saved.state.players;
+        } else if (typeof saved.state[key] === "number") {
+          state[key] = saved.state[key];
+        }
+      });
+    }
+
+    if (saved.inputs) {
+      const teamLocal = document.getElementById("teamLocal");
+      const teamRival = document.getElementById("teamRival");
+      const category = document.getElementById("category");
+
+      if (teamLocal) teamLocal.value = saved.inputs.teamLocal || "";
+      if (teamRival) teamRival.value = saved.inputs.teamRival || "";
+      if (category && saved.inputs.category) category.value = saved.inputs.category;
+    }
+  } catch (error) {
+    console.warn("No se pudo recuperar el partido guardado:", error);
+  }
+}
+
+function clearSavedMatch() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+function initAutoSave() {
+  ["teamLocal", "teamRival", "category"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", saveMatch);
+    el.addEventListener("change", saveMatch);
+  });
+}
+
 function pct(a, b) {
   if (!b) return "0.0%";
   return ((a / b) * 100).toFixed(1) + "%";
@@ -65,6 +132,7 @@ function addMissed(index) {
 
 function updatePlayerName(index, value) {
   state.players[index].name = value;
+  saveMatch();
 }
 
 function renderPlayers() {
@@ -202,6 +270,7 @@ Efectividad defensiva: ${pct(totalTackles, totalActions)}
 function render() {
   renderPlayers();
   renderStats();
+  saveMatch();
 }
 
 function exportCSV() {
@@ -312,6 +381,7 @@ function exportPDF() {
 
 function resetMatch() {
   if (!confirm("¿Reiniciar partido?")) return;
+  clearSavedMatch();
 
   Object.keys(state).forEach((key) => {
     if (key !== "players") state[key] = 0;
@@ -328,4 +398,8 @@ function resetMatch() {
   render();
 }
 
-render();
+document.addEventListener("DOMContentLoaded", () => {
+  loadMatch();
+  initAutoSave();
+  render();
+});

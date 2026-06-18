@@ -4,7 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rugby Stats Coach</title>
-  <link rel="stylesheet" href="styles.css?v=20260618102927" />
+  <meta name="theme-color" content="#14281e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Rugby Stats" />
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css?v=20260618143901" />
 </head>
 <body>
   <main class="app">
@@ -202,6 +207,15 @@
     </section>
   </main>
 
-  <script src="app.js?v=20260618102927"></script>
+  <script src="app.js?v=20260618143901"></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
+    }
+  </script>
+
 </body>
 </html>

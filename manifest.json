@@ -1,0 +1,25 @@
+{
+  "name": "Rugby Stats Coach",
+  "short_name": "Rugby Stats",
+  "description": "Aplicación web para registrar estadísticas de rugby durante partidos.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14281e",
+  "theme_color": "#14281e",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

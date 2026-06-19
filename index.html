@@ -9,11 +9,18 @@
   <meta name="apple-mobile-web-app-title" content="Rugby Stats" />
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=20260618144516" />
+  <link rel="stylesheet" href="styles.css?v=20260619160522" />
 </head>
 <body>
   <main class="app">
     <h1>Rugby Stats Coach</h1>
+
+    <section class="card">
+      <h2>Partidos</h2>
+      <button onclick="newMatch()">Nuevo partido</button>
+      <div id="matchesList"></div>
+    </section>
+
 
     <section class="card">
       <h2>Partido</h2>
@@ -207,7 +214,7 @@
     </section>
   </main>
 
-  <script src="app.js?v=20260618144516"></script>
+  <script src="app.js?v=20260619160522"></script>
 
   <script>
     if ("serviceWorker" in navigator) {

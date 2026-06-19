@@ -31,6 +31,159 @@ const state = {
 
 const STORAGE_KEY = "rugbyStatsCoachMatch_v1";
 
+const MATCHES_KEY = "rugbyStatsCoachMatches_v1";
+const CURRENT_MATCH_ID_KEY = "rugbyStatsCoachCurrentMatchId_v1";
+
+function generateMatchId() {
+  return "match_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
+}
+
+function getCurrentMatchId() {
+  let id = localStorage.getItem(CURRENT_MATCH_ID_KEY);
+  if (!id) {
+    id = generateMatchId();
+    localStorage.setItem(CURRENT_MATCH_ID_KEY, id);
+  }
+  return id;
+}
+
+function getMatches() {
+  try {
+    return JSON.parse(localStorage.getItem(MATCHES_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function setMatches(matches) {
+  localStorage.setItem(MATCHES_KEY, JSON.stringify(matches));
+}
+
+function getMatchSnapshot() {
+  return {
+    id: getCurrentMatchId(),
+    updatedAt: new Date().toISOString(),
+    inputs: getMatchInputs(),
+    state: JSON.parse(JSON.stringify(state))
+  };
+}
+
+function saveCurrentMatchToList() {
+  const snapshot = getMatchSnapshot();
+  const matches = getMatches();
+  const index = matches.findIndex((m) => m.id === snapshot.id);
+
+  if (index >= 0) {
+    matches[index] = snapshot;
+  } else {
+    matches.unshift(snapshot);
+  }
+
+  setMatches(matches);
+}
+
+function renderMatchesList() {
+  const container = document.getElementById("matchesList");
+  if (!container) return;
+
+  const matches = getMatches();
+
+  if (!matches.length) {
+    container.innerHTML = "<p>No hay partidos guardados todavía.</p>";
+    return;
+  }
+
+  container.innerHTML = matches.map((match) => {
+    const local = match.inputs?.teamLocal || "Local";
+    const rival = match.inputs?.teamRival || "Rival";
+    const category = match.inputs?.category || "";
+    const date = match.updatedAt ? new Date(match.updatedAt).toLocaleString("es-AR") : "";
+
+    return `
+      <div class="match-item">
+        <strong>${local} vs ${rival}</strong><br>
+        <span>${category} · ${date}</span><br>
+        <button onclick="openMatch('${match.id}')">Abrir</button>
+        <button class="danger" onclick="deleteMatch('${match.id}')">Eliminar</button>
+      </div>
+    `;
+  }).join("");
+}
+
+function openMatch(id) {
+  const match = getMatches().find((m) => m.id === id);
+  if (!match) return;
+
+  localStorage.setItem(CURRENT_MATCH_ID_KEY, id);
+
+  if (match.state) {
+    Object.keys(state).forEach((key) => {
+      if (key === "players" && Array.isArray(match.state.players)) {
+        state.players = match.state.players;
+      } else if (typeof match.state[key] === "number") {
+        state[key] = match.state[key];
+      }
+    });
+  }
+
+  if (match.inputs) {
+    const teamLocal = document.getElementById("teamLocal");
+    const teamRival = document.getElementById("teamRival");
+    const category = document.getElementById("category");
+
+    if (teamLocal) teamLocal.value = match.inputs.teamLocal || "";
+    if (teamRival) teamRival.value = match.inputs.teamRival || "";
+    if (category && match.inputs.category) category.value = match.inputs.category;
+  }
+
+  saveMatch();
+  render();
+}
+
+
+function deleteMatch(id) {
+  if (!confirm("¿Eliminar este partido guardado?")) return;
+
+  const matches = getMatches().filter((m) => m.id !== id);
+  setMatches(matches);
+
+  if (localStorage.getItem(CURRENT_MATCH_ID_KEY) === id) {
+    localStorage.removeItem(CURRENT_MATCH_ID_KEY);
+  }
+
+  renderMatchesList();
+}
+
+function resetStateOnly() {
+  Object.keys(state).forEach((key) => {
+    if (key !== "players") state[key] = 0;
+  });
+
+  state.players.forEach((p, i) => {
+    p.name = `Jugador ${i + 1}`;
+    p.tackles = 0;
+    p.missed = 0;
+  });
+}
+
+function newMatch() {
+  if (!confirm("¿Crear un nuevo partido? El partido actual quedará guardado.")) return;
+
+  saveCurrentMatchToList();
+
+  const id = generateMatchId();
+  localStorage.setItem(CURRENT_MATCH_ID_KEY, id);
+
+  resetStateOnly();
+
+  document.getElementById("teamLocal").value = "Liceo";
+  document.getElementById("teamRival").value = "Rival";
+  document.getElementById("category").value = "Primera";
+
+  render();
+}
+
+
 function getMatchInputs() {
   return {
     teamLocal: document.getElementById("teamLocal")?.value || "",
@@ -46,6 +199,9 @@ function saveMatch() {
       inputs: getMatchInputs(),
       savedAt: new Date().toISOString()
     }));
+
+    saveCurrentMatchToList();
+    renderMatchesList();
   } catch (error) {
     console.warn("No se pudo guardar el partido:", error);
   }
@@ -271,6 +427,7 @@ function render() {
   renderPlayers();
   renderStats();
   saveMatch();
+  renderMatchesList();
 }
 
 function exportCSV() {
@@ -401,5 +558,6 @@ function resetMatch() {
 document.addEventListener("DOMContentLoaded", () => {
   loadMatch();
   initAutoSave();
+  renderMatchesList();
   render();
 });
